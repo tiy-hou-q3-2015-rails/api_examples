@@ -11,10 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151014143646) do
+ActiveRecord::Schema.define(version: 20151014164304) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bids", force: :cascade do |t|
+    t.integer  "company_id"
+    t.integer  "quantity"
+    t.integer  "price_in_cents"
+    t.integer  "user_id"
+    t.boolean  "open",           default: true
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+  end
 
   create_table "companies", force: :cascade do |t|
     t.string   "name"
@@ -24,12 +34,30 @@ ActiveRecord::Schema.define(version: 20151014143646) do
     t.datetime "updated_at",          null: false
   end
 
+  create_table "portfolios", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "company_id"
+    t.integer  "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "sales", force: :cascade do |t|
     t.integer  "company_id"
     t.integer  "quantity"
     t.integer  "price_in_cents"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.integer  "user_id"
+    t.integer  "bid_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "email"
+    t.string   "password_digest"
+    t.integer  "balance_in_cents", default: 5000000
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
   end
 
 end

@@ -1,0 +1,19 @@
+.portfolio {
+  display: flex;
+  div {
+    width: 33%;
+  }
+}
+
+.bid {
+  display: flex;
+  align-items: center;
+  div {
+    flex: 1
+  }
+  margin-bottom: 1rem;
+}
+
+.bids .bid:nth-child(even) {
+  background: lighten(#cccccc, 20%);
+}

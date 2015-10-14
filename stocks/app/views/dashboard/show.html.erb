@@ -1,0 +1,68 @@
+<h1>IronBrothers</h1>
+<div class="well">
+  <p>
+    Your Cash Balance: <%= number_to_currency @current_user.balance %>
+  </p>
+  <p>
+    Your Portfolio Value: <%= number_to_currency @current_user.portfolio_balance %>
+  </p>
+</div>
+
+<div class="row">
+  <div class="col-xs-6">
+    <h2>Portfolio</h2>
+    <% if @current_user.portfolios.empty? %>
+      <i>You have no holdings</i>
+    <% end %>
+    <div class="portfolio">
+      <div><strong>Symbol</strong></div>
+      <div><strong>Quantity</strong></div>
+      <div><strong>Last Price</strong></div>
+      <div><strong>Current Value</strong></div>
+      <div><strong>Sell</strong></div>
+
+    </div>
+    <% @current_user.portfolios.each do |holding| %>
+      <div class="portfolio">
+        <div><%= holding.company.ticker_symbol %></div>
+        <div><%= holding.quantity %></div>
+        <div><%= number_to_currency holding.company.last_price %></div>
+        <div><%= number_to_currency holding.value %></div>
+        <div><%= link_to "Sell", new_bid_path(holding_id: holding.id) %></div>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-xs-6">
+    <h2>Current Bids (<%= pluralize(@bids.count, 'bid') %>)</h2>
+
+    <% if @bids.any? %>
+
+      <div class="bid">
+        <div><strong>Symbol</strong></div>
+        <div><strong>Quantity</strong></div>
+        <div><strong>Last Price</strong></div>
+        <div><strong>Offer Price</strong></div>
+        <div><strong>Total Cost</strong></div>
+        <div></div>
+      </div>
+      <div class="bids">
+        <% @bids.each do |bid| %>
+          <div class="bid">
+            <div><%= bid.company.ticker_symbol %></div>
+            <div><%= bid.quantity %></div>
+            <div><%= number_to_currency bid.company.last_price %></div>
+            <div><%= number_to_currency bid.price %></div>
+            <div><%= number_to_currency (bid.quantity * bid.price) %></div>
+
+            <div>
+                <%= link_to "BUY", transactions_path(id: bid.id), method: :post, class: "btn btn-success", disabled:  @current_user.balance < (bid.quantity * bid.price)%>
+            </div>
+
+          </div>
+        <% end %>
+      </div>
+
+    <% end %>
+
+  </div>
+</div>

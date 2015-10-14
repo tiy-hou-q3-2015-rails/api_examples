@@ -1,0 +1,16 @@
+<h1>Bids New</h1>
+
+You want to sell <%= @holding.company.ticker_symbol %>.
+You have <%= @holding.quantity %> to sell.
+
+<p>
+  Last Sale Price for <%= @holding.company.ticker_symbol %>: <%= number_to_currency @holding.company.last_price %>
+</p>
+
+
+<%= simple_form_for @bid do |f| %>
+  <%= f.input :company_id, as: :hidden %>
+  <%= f.input :quantity %>
+  <%= f.input :price %>
+  <%= f.submit class: "btn btn-primary" %>
+<% end %>

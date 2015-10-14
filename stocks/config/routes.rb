@@ -1,5 +1,29 @@
 Rails.application.routes.draw do
 
+  get 'bids/new'
+
+  get 'dashboard/show'
+
+  get 'users/new'
+
+  get 'sessions/new'
+
+  # auth
+  get "signin" => 'sessions#new', as: :signin
+  post "signin" => 'sessions#create'
+  delete "signin" => 'sessions#destroy', as: :signout
+
+  # signup
+  get "signup" => 'users#new', as: :signup
+  post "signup" => 'users#create', as: :users
+
+  root 'dashboard#show'
+
+  get "bids/new" => 'bids#new', as: :new_bid
+  post "bids" => 'bids#create', as: :bids
+  post "bids/:id/purchase" => 'transactions#create', as: :transactions
+
+
   namespace :api do
     get "companies" => 'companies#index', as: :companies
     get "companies/:id" => 'companies#show', as: :company

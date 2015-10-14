@@ -1,5 +1,7 @@
 class Sale < ActiveRecord::Base
   belongs_to :company
+  belongs_to :user #buyer
+  belongs_to :bid
 
   validates :company, presence: true
   validates :quantity, presence: true, numericality: {greater_than: 0, less_than: 5000}
